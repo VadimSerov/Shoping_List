@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Окно занесения</title>
+</head>
+<body>
+<form id='form001'>
+	<div>
+		<label>Добавьте покупку</label>
+		<input id='item' autofocus>
+		<button type='submit' id='but001'>Добавить</button>
+	</div>
+</form>
+<script>
+	const {ipcRenderer} = require('electron');
+	const form = document.querySelector('form');
+	form.addEventListener('submit',submitForm);
+	function submitForm(e){
+		e.preventDefault();
+		item = document.querySelector('#item').value;
+		//закинуть item:add в главную программу main.js
+		ipcRenderer.send('item:add',item);
+	}
+</script>
+</body>
+</html>

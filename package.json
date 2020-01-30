@@ -1,0 +1,12 @@
+{
+  "name": "Shoping_List",
+  "version": "1.0.0",
+  "main": "main.js",
+  "license": "UTMN",
+  "dependencies": {
+    "electron": "^6"
+  },
+  "scripts": {
+    "start": "electron ."
+  }
+}
