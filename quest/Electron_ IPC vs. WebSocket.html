@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<!-- saved from url=(0056)https://www.scriptol.com/javascript/ipc-vs-websocket.php -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Electron: IPC vs. WebSocket</title>
+<meta name="description" content="For local Node.js applications, which of these two data exchange modes to choose?"><link type="text/css" href="./Electron_ IPC vs. WebSocket_files/scriptol.css" rel="stylesheet">
+<script src="./Electron_ IPC vs. WebSocket_files/cb=gapi.loaded_1" async=""></script><script src="./Electron_ IPC vs. WebSocket_files/cb=gapi.loaded_0" async=""></script><script src="./Electron_ IPC vs. WebSocket_files/embed.js.Без названия" data-timestamp="1580378195541"></script><link rel="prefetch" as="style" href="https://c.disquscdn.com/next/embed/styles/lounge.15d8f2a22cfa6b9f96345c682b01a08f.css"><link rel="prefetch" as="script" href="https://c.disquscdn.com/next/embed/common.bundle.0d424497492a7a96477653dedbd1462f.js"><link rel="prefetch" as="script" href="https://c.disquscdn.com/next/embed/lounge.bundle.a0b0b564b806112a1c4571475f829256.js"><link rel="prefetch" as="script" href="https://disqus.com/next/config.js"><script charset="utf-8" src="./Electron_ IPC vs. WebSocket_files/button.550007e6cc79c00bac51111d8131d860.js.Без названия"></script><style></style><script src="./Electron_ IPC vs. WebSocket_files/alfalfalfa.0823c767a3bc925f628afd9bed26c958.js.Без названия" async="" charset="UTF-8"></script></head>
+
+<body><div role="dialog" aria-live="polite" aria-label="cookieconsent" aria-describedby="cookieconsent:desc" class="cc-window cc-banner cc-type-info cc-theme-block cc-bottom cc-color-override-358643213 " style=""><!--googleoff: all--><span id="cookieconsent:desc" class="cc-message">This website uses cookies to ensure you get the best experience on our website. <a aria-label="learn more about cookies" role="button" tabindex="0" class="cc-link" href="http://cookiesandyou.com/" target="_blank">Learn more</a></span><div class="cc-compliance"><a aria-label="dismiss cookie message" role="button" tabindex="0" class="cc-btn cc-dismiss">Got it!</a></div><!--googleon: all--></div>
+<div id="saat">
+<script type="text/javascript" async="" src="./Electron_ IPC vs. WebSocket_files/plusone.js.Без названия" gapi_processed="true"></script><script id="twitter-wjs" src="./Electron_ IPC vs. WebSocket_files/widgets.js.Без названия"></script><script type="text/javascript">
+window.google_analytics_uacct = "UA-6574971-2";
+</script>
+</div>
+ 
+<div id="logo"> 
+<div id="topmenu">
+<span class="tentry"><a href="https://www.scriptol.com/design/" target="_top">Graphics</a></span> 
+<span class="tentry"><a href="https://www.scriptol.com/html5/" target="_top">HTML 5</a></span> 
+<span class="tentry"><a href="https://www.scriptol.com/javascript/" target="_top">JavaScript</a></span> 
+<span class="tentry"><a href="https://www.scriptol.com/programming/" target="_top">Programming</a></span>  
+<span class="tentry"><a href="https://www.scriptol.com/scripts/" target="_top">Scripts</a></span> 
+<span class="tentry"><a href="https://www.scriptol.com/sql/" target="_top">SQL</a></span> 
+<span class="tentry"><a href="https://www.scriptol.com/svg/" target="_top">SVG</a></span> 
+<span class="tentry"><a href="https://www.scriptol.com/webmaster/" target="_top">Webmaster</a></span>
+<span class="tentry"><a href="https://www.scriptol.com/software/" target="_top">Software</a></span> 
+<span class="tentry"><a href="https://www.scriptol.com/mobile/" target="_top">Mobiles</a></span> 
+<span class="tentry"><a href="https://www.scriptol.com/how-to/" target="_top">How to</a></span>  
+</div>
+
+<div id="logoback"><a href="https://www.scriptol.com/"><img src="./Electron_ IPC vs. WebSocket_files/scriptol.png" alt="Scriptol.com, programming techniques"></a></div>
+<div id="dict" onclick="location.href=&#39;https://www.scriptol.com/dictionary.php&#39;" title="Dictionary"><img src="./Electron_ IPC vs. WebSocket_files/dict.png"></div>
+
+</div><div id="menupanel">
+<div class="menuhead"> <a href="https://www.scriptol.com/javascript/" target="_top">JavaScript</a> </div>
+
+<div class="menu">     
+<div class="menulist">
+<a href="https://www.scriptol.com/javascript/pwa.php" target="_top">PWA</a><br>
+<a href="https://www.scriptol.com/javascript/indexedDB.php" target="_top">IndexedDB</a><br>
+<a href="https://www.scriptol.com/javascript/node.php" target="_top">Node.js</a><br>
+<a href="https://www.scriptol.com/javascript/javascript-vs-php.php" target="_top"> PHP vs. JavaScript</a><br>
+<a href="https://www.scriptol.com/javascript/reactive-programming.php">Reactive programming</a> 
+</div>
+</div>
+
+<div class="menu">
+<script async="" src="./Electron_ IPC vs. WebSocket_files/f.txt"></script>
+<ins class="adsbygoogle" style="display:inline-block;width:180px;height:90px" data-ad-client="ca-pub-2681794164750401" data-ad-slot="5844506056"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+<div class="menu">     
+<div class="menulist"> 
+<a href="https://www.scriptol.com/javascript/javascript-ini.php" target="_top">JavaScript INI</a><br>
+<a href="https://www.scriptol.com/javascript/dates-difference.php" target="_top">Dates calculations</a><br>
+<a href="https://www.scriptol.com/javascript/compatibility.php" target="_top">ES6 implementation</a></div>
+</div>
+</div>
+
+
+
+<link type="text/css" href="./Electron_ IPC vs. WebSocket_files/download.css" rel="stylesheet">
+<link rel="stylesheet" href="./Electron_ IPC vs. WebSocket_files/tomorrow-night-eighties.css">
+<script src="./Electron_ IPC vs. WebSocket_files/highlight.pack.js.Без названия"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<div id="content"> 
+<h1>Electron: IPC vs. WebSocket</h1>
+<p>For local Node.js applications, which of these two data exchange modes to choose?</p>
+<p>We'll compare their features and performance ...</p>
+<p>Note that if WebSocket is available for all Node-based systems, even a simple server script such as the one described in the JavaScript section of this site, IPC only works with Electron.</p>
+<p>On the server side, the WebSocket commands are based on the ws module. Other choices would be possible, with different syntaxes. On the interface side, we use the standard WebSocket object.</p>
+<table width="1002" border="1" class="leftable">
+  <tbody><tr>
+    <th width="331">&nbsp;</th>
+    <th width="319">WebSocket</th>
+    <th width="330">IPC</th>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td colspan="2"><div align="center"> SERVER side </div></td>
+  </tr>
+  <tr>
+    <td>Import</td>
+    <td>const WebSocketServer = require("ws").Server;</td>
+    <td>const {ipcMain}=require('electron').ipcMain </td>
+  </tr>
+  <tr>
+    <td>Creating an object </td>
+    <td>w = new WebSocketServer(port)</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Waiting the  communication to open</td>
+    <td>w.on('connection', (w) =&gt;{}) </td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Sending data to the interface </td>
+    <td>w.send(data)</td>
+    <td>event.sender.send('channel', data)</td>
+  </tr>
+  <tr>
+    <td>Synchronous data transmission</td>
+    <td>-</td>
+    <td>event.returnValue = data </td>
+  </tr>
+  <tr>
+    <td>Receiving data from the interface</td>
+    <td>w.on('message', (m) =&gt;{}) </td>
+    <td>ipcMain.on('channel', (e, o) =&gt; {})</td>
+  </tr>
+  <tr>
+    <td>Closing the communication channel</td>
+    <td>w.on('close', () =&gt;{}) </td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td colspan="2"><div align="center"> INTERFACE side </div></td>
+  </tr>
+  <tr>
+    <td>Import</td>
+    <td>-</td>
+    <td>const ipcRenderer = require('electron').ipcRenderer</td>
+  </tr>
+  <tr>
+    <td>Creating an object </td>
+    <td>const w = new WebSocket(port);</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Sending data to the server </td>
+    <td>w.send(data)</td>
+    <td>ipcRenderer.send('channel', data)</td>
+  </tr>
+  <tr>
+    <td>Synchronous data transmission</td>
+    <td>-</td>
+    <td>ipcRenderer.sendSync('channel', data)</td>
+  </tr>
+  <tr>
+    <td>Receiving data from the server </td>
+    <td>w.onmessage = function(event){})</td>
+    <td>ipcRenderer.on('channel', (event)=&gt;{}) </td>
+  </tr>
+  <tr>
+    <td>Closing the communication channel</td>
+    <td>w.close()</td>
+    <td>-</td>
+  </tr>
+</tbody></table>
+<p>We can see the differences between the two protocols:</p>
+<ul>
+  <li>For IPC, there is only one ipc object on the server and one for each window in the interface. You can communicate with a window by specifying the name of the channel. For WebSocket, it is the port number that distinguishes the communication points.</li>
+  <li>IPC has a synchronous mode and not WebSocket.</li>
+  <li>But the second is bidirectional: the server can start the data exchange.</li>
+</ul>
+<p>In terms of features, IPC prevails with the ability to exchange data synchronously. Not using the ports of the system  also avoids any risk of collision when the port is already used by another application.</p>
+<h2> IPC demo </h2>
+<p>We will build a basic application with a window and a backend that communicates with the interface in synchronous and asynchronous mode.</p>
+<p>The interface sends the "hello server" message to the backend that replies with "hello interface".<br>
+  In the asynchronous mode, a listener in the interface waits for the message to be received on the "message" channel.<br>
+  In synchronous mode, the server response is the return value of the function that sends the message to the server.</p>
+<h3>Server side code </h3>
+<pre><code class=" hljs php"><span class="hljs-keyword">const</span> path = <span class="hljs-keyword">require</span>(<span class="hljs-string">"path"</span>)
+<span class="hljs-keyword">const</span> { app, BrowserWindow, ipcMain } = <span class="hljs-keyword">require</span>(<span class="hljs-string">'electron'</span>)
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">print</span> = console.log
+
+let win
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createWindow</span><span class="hljs-params">()</span> {</span>
+    win = <span class="hljs-keyword">new</span> BrowserWindow({
+        width: <span class="hljs-number">960</span>, height: <span class="hljs-number">600</span>, 
+        title:<span class="hljs-string">"IPC vs. WebSocket"</span>,
+        webPreferences : { nodeIntegration:<span class="hljs-keyword">true</span> }
+    })
+ 
+    win.setMenu(<span class="hljs-keyword">null</span>)
+    <span class="hljs-keyword">const</span> fpath = path.join(__dirname, <span class="hljs-string">'ipc.html'</span>)
+    win.loadURL(fpath)
+    win.on(<span class="hljs-string">'closed'</span>, () =&gt; { win = <span class="hljs-keyword">null</span> })
+}
+
+<span class="hljs-comment">// IPC</span>
+
+ipcMain.on(<span class="hljs-string">'message'</span>, (event, data) =&gt; {
+  <span class="hljs-keyword">print</span>(<span class="hljs-string">"Received: "</span> + data) 
+  event.sender.send(<span class="hljs-string">'message'</span>, <span class="hljs-string">'Hello interface!'</span>)
+})
+
+ipcMain.on(<span class="hljs-string">'message-sync'</span>, (event, data) =&gt; {
+  <span class="hljs-keyword">print</span>(<span class="hljs-string">"Received: "</span> + data) 
+  event.returnValue = <span class="hljs-string">'Hello interface (synchronous)!'</span>
+})
+
+<span class="hljs-comment">// App</span>
+
+app.on(<span class="hljs-string">'ready'</span>, createWindow)
+app.on(<span class="hljs-string">'window-all-closed'</span>, () =&gt; { 
+    app.quit()
+    process.<span class="hljs-keyword">exit</span>(<span class="hljs-number">1</span>)
+})
+app.on(<span class="hljs-string">'quit'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span> 
+    <span class="hljs-keyword">print</span>(<span class="hljs-string">"Done."</span>)
+})</code></pre>
+<p>In the demo, the <i>event.sender.send</i> command responds on the same "message" channel that is used in reception, but it is also possible to send data to multiple different channels (unlike in synchronous mode).</p>
+<h3>Browser side code</h3>
+<pre><code class=" hljs xml"><span class="hljs-doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>IPC Demo<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">fieldset</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"storage"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">fieldset</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">fieldset</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"storageSync"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">fieldset</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="javascript">
+<span class="hljs-keyword">const</span> {ipcRenderer} = <span class="hljs-built_in">require</span>(<span class="hljs-string">'electron'</span>)
+
+ipcRenderer.on(<span class="hljs-string">'message'</span>, (event, data) =&gt; {
+  document.getElementById(<span class="hljs-string">"storage"</span>).innerHTML = data
+})
+
+ipcRenderer.send(<span class="hljs-string">'message'</span>, <span class="hljs-string">'Hello server!'</span>)
+<span class="hljs-keyword">var</span> answer = ipcRenderer.sendSync(<span class="hljs-string">'message-sync'</span>, <span class="hljs-string">'Hello server sync!'</span>)
+document.getElementById(<span class="hljs-string">"storageSync"</span>).innerHTML = answer
+
+</span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span></code></pre> 
+<p>To run the program, type "electron ipc.js" in the scripts directory.</p>
+<h2> WebSocket demo </h2>
+<p>As before, the interface sends the message "Hello server!" To the backend which in return sends "Hello interface!" To the browser.</p>
+<h3>Server side code </h3>
+<p>The backend imports the ws module, which is included in the archive.</p>
+<pre><code class=" hljs php"><span class="hljs-keyword">const</span> path = <span class="hljs-keyword">require</span>(<span class="hljs-string">"path"</span>)
+<span class="hljs-keyword">const</span> { app, BrowserWindow  } = <span class="hljs-keyword">require</span>(<span class="hljs-string">'electron'</span>)
+<span class="hljs-keyword">const</span> WebSocket = <span class="hljs-keyword">require</span>(<span class="hljs-string">"ws"</span>)
+
+<span class="hljs-keyword">const</span> wss = <span class="hljs-keyword">new</span> WebSocket.Server( { port: <span class="hljs-number">1040</span> } )
+
+let win
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> {</span>
+    win = <span class="hljs-keyword">new</span> BrowserWindow({
+        width: <span class="hljs-number">960</span>, height: <span class="hljs-number">600</span>, 
+        title:<span class="hljs-string">"WebSocket Demo"</span>
+    })
+    win.setMenu(<span class="hljs-keyword">null</span>)
+
+    <span class="hljs-keyword">const</span> fpath = path.join(__dirname, <span class="hljs-string">'websocket.html'</span>)
+    win.loadURL(fpath)
+    win.on(<span class="hljs-string">'closed'</span>, () =&gt; { win = <span class="hljs-keyword">null</span> })
+    
+    wss.on(<span class="hljs-string">'connection'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(w)</span> {</span>  
+        w.on( <span class="hljs-string">'message'</span> , <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(data)</span>  {</span>
+             console.log(data)
+        })  
+        w.on(<span class="hljs-string">'close'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span> 
+             console.log(<span class="hljs-string">"Closed"</span>) 
+        })    
+        w.send(<span class="hljs-string">"Hello interface!"</span>)
+    })    
+}
+
+app.on(<span class="hljs-string">'ready'</span>, main)
+app.on(<span class="hljs-string">'window-all-closed'</span>, () =&gt; { 
+    app.quit()
+    process.<span class="hljs-keyword">exit</span>(<span class="hljs-number">1</span>)
+})
+app.on(<span class="hljs-string">'quit'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span> 
+    console.log(<span class="hljs-string">"Done."</span>)
+})</code></pre>
+<h3>Browser side code</h3>
+<p> The interface uses the browser's standard WebSocket object.</p>
+<pre><code class=" hljs xml"><span class="hljs-doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>WebSocket Demo<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">fieldset</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"storage"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">fieldset</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="javascript">
+<span class="hljs-keyword">const</span> socket = <span class="hljs-keyword">new</span> WebSocket(<span class="hljs-string">"ws://localhost:1040"</span>);
+socket.onmessage = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
+    <span class="hljs-keyword">var</span> data = event.data
+    document.getElementById(<span class="hljs-string">"storage"</span>).innerHTML = data
+}    
+socket.onopen = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    socket.send(<span class="hljs-string">'Hello server!'</span>)  
+}    
+</span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span></code></pre>
+<p>The code is a bit simpler because we are only testing an asynchronous mode and this time we do not need to include the Electron module.</p>
+<p>Type "electron websocket.js" to start the script.</p>
+<h2>Comparative speeds</h2>
+<p>My initial intention was to continue the comparison with new scripts exchanging a series of data to compare the speed of the two protocols. But when we execute the two  scripts above, we see that it is useless. While the data is displayed instantly with IPC, there is a noticeable delay with WebSocket.<br>
+And it's normal, IPC is internal to Electron while WebSocket goes through the computer's network system, with all its necessary constraints and controls.</p>
+<p>Therefore, as soon as Electron has been chosen, IPC should also be the preferred mode of communication unless there is a need for a bidirectional system, with server notifications for example.</p>
+<p class="h2"><i>Download the scripts</i></p>
+<div align="center">
+<a href="https://www.scriptol.fr/javascript/ipc-vs-websocket.zip">
+<button class="download"><img src="./Electron_ IPC vs. WebSocket_files/download.png"></button>
+</a>
+</div>
+
+<div class="pub" id="ad76890">
+<script async="" src="./Electron_ IPC vs. WebSocket_files/f.txt"></script>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2681794164750401" data-ad-slot="1228452856" data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+
+<div class="container">
+<table class="social">
+<tbody><tr>
+ <td>
+<iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" class="twitter-share-button twitter-share-button-rendered twitter-tweet-button" style="position: static; visibility: visible; width: 60px; height: 20px;" title="Twitter Tweet Button" src="./Electron_ IPC vs. WebSocket_files/tweet_button.4f8aea4342a4ada72cba2bdffcff6b4d.en.html"></iframe>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+ </td>
+ <td>
+<div id="___plusone_0" style="position: absolute; width: 450px; left: -10000px;"><iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" style="position:absolute;top:-10000px;width:450px;margin:0px;border-style:none" tabindex="0" vspace="0" width="100%" id="I0_1580378197887" name="I0_1580378197887" src="./Electron_ IPC vs. WebSocket_files/fastbutton.html" data-gapiattached="true"></iframe></div><g:plusone count="false" data-gapiscan="true" data-onload="true" data-gapistub="true"></g:plusone>
+<script type="text/javascript">
+  (function() {
+	var po = document.createElement('script'); po.type = 'text/javascript'; 
+	po.async = true;
+	po.src = 'https://apis.google.com/js/plusone.js';
+	var s = document.getElementsByTagName('script')[0]; 
+	s.parentNode.insertBefore(po, s);
+  })();
+</script>
+ </td>
+
+ <td>
+<iframe src="./Electron_ IPC vs. WebSocket_files/like.html" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowtransparency="true"></iframe>
+ </td>
+ 
+<td>
+<script src="https://platform.linkedin.com/in.js" type="text/javascript"></script>
+<script type="IN/Share"></script>
+</td> 
+ 
+</tr>
+</tbody></table>
+</div>
+<div id="disqus_thread"><iframe id="dsq-app5997" name="dsq-app5997" allowtransparency="true" frameborder="0" scrolling="no" tabindex="0" title="Disqus" width="100%" src="./Electron_ IPC vs. WebSocket_files/saved_resource.html" style="width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 526px !important;" horizontalscrolling="no" verticalscrolling="no"></iframe></div>
+<script>
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://scriptol.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+                          
+
+<div id="footer"> © 28 février 2017 <a href="https://www.scriptol.com/javascript/">Scriptol.com</a></div>
+    
+</div>
+
+<div id="sea">
+<script async="" src="./Electron_ IPC vs. WebSocket_files/js"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-6574971-2');
+</script>
+
+</div>
+
+<link rel="stylesheet" type="text/css" href="./Electron_ IPC vs. WebSocket_files/cookieconsent.min.css">
+<script src="./Electron_ IPC vs. WebSocket_files/cookieconsent.min.js.Без названия"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#1d8a8a"
+    },
+    "button": {
+      "background": "#62ffaa"
+    }
+  }
+})});
+</script>
+
+
+
+<iframe scrolling="no" frameborder="0" allowtransparency="true" src="./Electron_ IPC vs. WebSocket_files/widget_iframe.4f8aea4342a4ada72cba2bdffcff6b4d.html" title="Twitter settings iframe" style="display: none;"></iframe><iframe style="display: none;" src="./Electron_ IPC vs. WebSocket_files/saved_resource(1).html"></iframe><iframe name="oauth2relay479017701" id="oauth2relay479017701" src="./Electron_ IPC vs. WebSocket_files/postmessageRelay.html" tabindex="-1" aria-hidden="true" style="width: 1px; height: 1px; position: absolute; top: -100px;"></iframe></body></html>
