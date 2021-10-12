@@ -4,7 +4,7 @@
   "main": "main.js",
   "license": "UTMN",
   "dependencies": {
-    "electron": "^6"
+    "electron": "^11"
   },
   "scripts": {
     "start": "electron ."
